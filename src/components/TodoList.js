@@ -1,18 +1,19 @@
 import React from 'react'
 import { Box } from '@chakra-ui/react'
 import { useSelector } from "react-redux"
+import { getTodosByVisibilityFilter } from '../redux/selector'
 import Todo from './Todo'
  
-const TodoList = () => {
-  const { todos } = useSelector(state => state);
+export default function TodoList() {
+  const { todos, visibilityFilter } = useSelector(state => state);
+  const filterTodos = getTodosByVisibilityFilter(todos, visibilityFilter);
 
   return (
     <Box my={3}>
-      {todos.todos.length ? todos.todos.map((todo) => (
-        <Todo key={`todo-${todo.id}`} todo={todo}/>
-      )) : <Box textAlign="center">No Todos yay!</Box>}
+      {filterTodos.length ? filterTodos.map(todo => (
+        <Todo key={`todo-${todo.id}`} todo={todo} />
+      )) : <Box textAlign="center" my="4">No Todos Yay!</Box>}
     </Box>
   )
 }
 
-export default TodoList
